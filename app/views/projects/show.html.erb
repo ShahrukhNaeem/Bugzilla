@@ -1,0 +1,65 @@
+<div class="container">
+    <h2><%= @project.name %> Bugs</h2>
+    <table class="table table-dark">
+      <thead>
+        <tr>
+          <th>Project</th>
+          <th>Bug Title</th>
+          <th>Deadline</th>
+          <th>Screenshot</th>
+          <th>Status</th>
+          <th>Type</th>
+          <th>Created By User ID</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @bugs.each do |bug| %>
+        <tr>
+          <td><%= bug.project.name%></td>
+         
+          <td><%= bug.title %></td>
+          <td><%= bug.deadline %></td>
+          <td><%= bug.screenshot %></td>
+          <td><%= bug.status %></td>
+          <td><%= bug.bug_type %></td>
+          <td><%= bug.user_id %></td>
+<!--           <td><%#= link_to 'Edit', edit_project_path(@project) ,class: "btn btn-info"if policy(Project).edit? %></td> -->
+           
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <br>
+
+<div class="container">
+    <h2> <%= @project.name %> Users</h2>
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th>User</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @project_users.each do |project_user| %>
+        <tr>
+          <td>
+            <%= project_user.name %>
+          </td>
+          
+          <td>
+          <%=link_to "Remove",delete_project_user_project_path(user_id: project_user.id), :method => :delete, :class => "delete", :confirm => "Are you sure ?",class: "btn btn-danger" if policy(Project).delete_project_user?%>  
+
+            <%#= link_to 'Remove', method: :delete, data: { confirm: 'Are you sure?'} %>
+          </td>
+
+        </tr>
+        
+        <% end %>
+
+      </tbody>
+    </table>
+</div>
+
+<%= link_to 'Back', projects_path ,class: "btn btn-info"%>

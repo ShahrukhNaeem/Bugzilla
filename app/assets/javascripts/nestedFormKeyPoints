@@ -1,0 +1,161 @@
+=> we have 2 models
+Todo list
+Task
+
+=> Todo list have many tasks
+
+=> Todo list model just have "name" field
+
+=> Task model 
+
+rails g model Task todo_list:references name completed:boolean due:date
+
+=> rails db:migrate
+
+=> in TodoList model
+
+class TodoList < ApplicationRecord
+	has_many :tasks, dependent: :destroy
+	accepts_nested_attributes_for :tasks, allow_destroy: true, reject_if: proc { |attr| attr["name"].blank? }
+
+
+# accepts_nested_attributes_for :tasks (means => we dont have to make a form for task model , we can use task fields in todoList form )
+
+# allow_destroy: true (means => we can delete tasks from todolist model :P)
+
+# reject_if: proc { |attr| attr["name"].blank? } (means => name field cant be blank )
+
+# reject_if: :all_blank  (we can do this too)
+
+end
+
+
+=> in Task Model
+
+class Task < ApplicationRecord
+	belongs_to :todo_list, optional: true 
+
+
+# 	belongs_to :todo_list # (this line automatically added bcz of references :P)
+
+# optional: true (means  => if we create new todolist and start adding new task in it then it wont give us error(that is todolist must exist first :P) :P)
+
+end
+
+
+=> goto todolist form
+
+in here there would be just one field "name "of todolist i.e.
+
+<div class="form-inputs">
+	<%= f.input  :name%>
+</div>
+
+# add here tasks field using "field_for"
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>
+				Task Name
+			</th>
+			<th>
+				Completed
+			</th>
+			<th>
+				Due
+			</th>						
+		</tr>
+	</thead>
+	<tbody class="fields">
+		<%= f.fields_for :tasks do |builder| %>
+			<%= render 'task', f: builder %>
+		<% end %>
+	</tbody>
+</table
+
+
+
+=> goto views > todolist > make new file(partial) "_task.html.erb"
+
+<tr>
+	<td>
+		<%= f.input_field :_destroy,as: : hidden %>
+		<%= link_to 'Delete', "#", class: 'remove_record' %> # this line will delete all below record :P
+
+	</td>
+	<td>
+		<%= f.input :name, label: false%>
+	</td>
+	<td>
+		<%= f.input :completed, label: false %>
+	</td>
+	<td>
+		<%= f.input :due, label: false,as: :string %>
+	</td>
+</tr>
+
+
+
+=> goto strong params of todolist to add task fields  :P
+
+right now it will be as 
+
+	def todolist_params
+		params.require(:todolist).permit(;name)
+	end
+
+add tasks fields here as:P
+
+:::::::::1st way :::::::::::::::
+
+	def todolist_params
+		params.require(:todolist).permit(;name, tasks_attributes: [:id, :_destroy, :todo_list_id, :name, :completed, :due])
+	end
+:::::::::1st way :::::::::::::::
+
+:::::::::2nd way :::::::::::::::
+
+	def todolist_params
+		params.require(:todolist).permit(;name, tasks_attributes: Task.attribute_names.map(&:to_sym).push(_destroy))
+	end
+
+
+:::::::::2nd way :::::::::::::::
+
+
+=> goto todolist controller
+
+=> we can create new tasks by 
+
+def new
+	@todolist = TodoList.new
+
+	@todolist.taks.build
+
+end
+
+
+=> if we want to create new tasks just then goto _form(partial) of todolist
+
+<div class="form-actions">
+	<%= f.button :submit %>
+	<%= link_to_add_row('Add Task',f, :tasks,class: 'btn btn-primary')%>
+
+
+</div>
+
+
+
+
+
+for further tutorial
+
+https://www.youtube.com/watch?v=pulzZxPkgmE
+
+
+
+
+
+
+

@@ -1,0 +1,45 @@
+
+<!-- <p id="notice"><%= notice %></p>
+ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<body>
+
+<div class="container">
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th>Project</th>
+        <th>Title</th>
+        <th>Deadline</th>
+        <th>Screenshot</th>
+        <th>Status</th>
+        <th>Type</th>
+        <th>Created By User ID</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+<!--         <td><%#= @bug.user.name%></td> -->
+        <td><%= @bug.project.name %></td>
+        <td><%= @bug.title %></td>
+        <td><%= @bug.deadline %></td>
+        <td><%= @bug.screenshot %></td>
+        <td><%= @bug.bug_type %></td>
+        <td><%= @bug.status %></td>
+        <td><%= @bug.user_id %></td>
+        <td></td>
+        <td></td>
+      </tr>
+
+    </tbody>
+
+  </table>
+  <%= link_to 'Edit', edit_bug_path(@bug) %>
+  <%= link_to 'Back', bugs_path %>
+</div>
+
+</body>
+</html>

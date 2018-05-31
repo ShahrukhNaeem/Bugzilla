@@ -1,0 +1,35 @@
+<%= form_for(project) do |f| %>
+  <% if project.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(project.errors.count, "error") %> prohibited this project from being saved:</h2>
+
+      <ul>
+      <% project.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <%= f.fields_for :user_projects do |builder| %>
+  <fieldset>
+    <%= builder.label :user_id, "Add User" %>
+    <%= builder.select :user_id,options_for_select(@users.collect { |user| [user.name, user.id] }) %>
+  </fieldset>
+
+  <% end %> 
+
+
+  <%#= f.fields_for :user_projects do |builder| %>
+    <%#= builder.collection_check_boxes :user_id, @users,:id, :name do |b| %>
+    <%#= b.label {b.check_box + b.text} %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,10 @@
+<%= form_tag add_user_project_path(@project.id) , method: :GET  do  %>
+<div class="field">
+	<%= label_tag :Add_Developer %>
+  <%= select_tag :user_id, options_for_select(@users.collect{|user| [user.name,user.id]}) %>
+</div>
+  
+<div class="actions">
+  <%= submit_tag "Add User" %>
+</div>
+<% end %>

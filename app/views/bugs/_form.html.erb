@@ -1,0 +1,54 @@
+<%= form_for(bug) do |f| %>
+  <% if bug.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(bug.errors.count, "error") %> prohibited this bug from being saved:</h2>
+
+      <ul>
+      <% bug.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :project_id %>
+    <%= f.select(:project_id,options_for_select(@projects.collect{|project| [project.name,project.id]})) %> 
+  </div>
+
+  <div class="field">
+    <%= f.label :developer_id,'Assign Bug To User' %>
+    <%= f.select(:developer_id, options_for_select(@assign_bugs_to_users.collect{|user| [user.name,user.id] if user.user_type != "Manager" }.compact ), :include_blank => true , class: "form-control")%>
+    
+  </div>
+
+  <div class="field">
+    <%= f.label :title %>
+    <%= f.text_field :title , class: "form-control" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :deadline %>
+    <%= f.date_field :deadline, min: Date.current , class: "form-control" %>
+  </div>
+
+
+  <div class="field">
+    <%= f.file_field :screenshot, accept: 'image/png,image/gif' %>
+  </div>
+
+  <div class="field">
+    <%= f.label :bug_type %>
+     <%= f.select :bug_type, @bug_types, {}, :id =>:bug_type_id, include_blank: true %> 
+  </div>
+
+  <div class="field">
+    <%= f.label :status %>
+    <%= f.select :status, ["new","started","completed"],{},:id => :status_id,include_blank: false %>
+  </div>
+
+     <%#= f.text_field :status %>  
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

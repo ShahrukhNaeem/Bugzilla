@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+
+<div class="container">
+  <h2>Profile</h2>
+  <% user = current_user %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td> <%= user.name %></td>
+        <td> <%= user.email %></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

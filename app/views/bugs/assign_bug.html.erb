@@ -1,0 +1,30 @@
+<div class="container">
+	<h2>Bugs Assigned to <%#= @bug.assigned_to.name %> </h2>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Created By</th>
+				<th>Assigned To</th>
+				<th>Project</th>
+				<th>Bug Title</th>
+				<th>Deadline</th>
+				<th>Screenshot</th>
+				<th>status</th>
+				<th>Type</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><%= @bug.user.name%></td>
+        <td><%= @bug.assigned_to.name rescue ""%></td>
+        <td><%= @bug.project.name %>  </td>
+        <td><%= @bug.title %></td>
+        <td><%= @bug.deadline %></td>
+        <td><%= image_tag @bug.screenshot_url.to_s %></td>
+        <td><%= @bug.status %></td>
+        <td><%= @bug.bug_type %></td>
+			</tr>
+		</tbody>
+			
+	</table>
+</div>
